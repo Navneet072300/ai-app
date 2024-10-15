@@ -85,11 +85,11 @@ export function removeKeysFromQuery({
 }
 
 // DEBOUNCE
-export const debounce = (func: (...args: any[]) => void, delay: number) => {
+export const debounce = (func: (...args: unknown[]) => void, delay: number) => {
   let timeoutId: NodeJS.Timeout | null;
-  return (...args: any[]) => {
+  return (...args: unknown[]) => {
     if (timeoutId) clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => func.apply(null, args), delay);
+    timeoutId = setTimeout(() => func(...args), delay);
   };
 };
 
@@ -131,7 +131,8 @@ export const download = (url: string, filename: string) => {
 };
 
 // DEEP MERGE OBJECTS
-export const deepMergeObjects = (obj1: any, obj2: any) => {
+// @ts-expect-error: Assigning two objects to merge
+export const deepMergeObjects = (obj1, obj2) => {
   if (obj2 === null || obj2 === undefined) {
     return obj1;
   }

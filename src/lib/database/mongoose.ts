@@ -7,10 +7,12 @@ interface MongooseConnection {
   promise: Promise<Mongoose> | null;
 }
 
-let cached: MongooseConnection = (global as any).mongoose;
+// @ts-expect-error: mongoose property does not exist on global yet
+let cached: MongooseConnection = global.mongoose;
 
 if (!cached) {
-  cached = (global as any).mongoose = {
+  // @ts-expect-error: Assigning mongoose property to global for caching
+  cached = global.mongoose = {
     conn: null,
     promise: null,
   };
